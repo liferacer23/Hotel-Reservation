@@ -30,6 +30,18 @@ app.use("/api/users", usersRoute);
 app.use("/api/rooms", roomsRoute);
 app.use("/api/hotels", hotelsRoute);
 
+app.use((err, req, res,next) => {
+  const errorStatus = err.status || 500
+  const errorMessage = err.message || "Something went wrong!"
+
+  return res.status(500).json({
+    success:false,
+    status:errorStatus,
+    message:errorMessage,
+    stack:err.stack
+  });
+});
+
 app.listen(5000 || process.env.PORT, () => {
   connect();
   console.log("Backend is running on port 5000");

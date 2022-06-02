@@ -1,5 +1,6 @@
 const User = require("../Models/UserModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const {
   UserRegisterValidation,
   UserLoginValidation,
@@ -24,13 +25,16 @@ const register = async (req, res, next) => {
     });
     try {
       const addUser = await newUser.save();
-      const { password, updatedAt, ...others } = addUser._doc;
+      const { password, ...others } = addUser._doc;
       res.status(200).json(others);
     } catch (err) {
       next(err);
     }
   }
 };
+
+////////////////////////////////////////
+
 const login = async (req, res, next) => {
   //Check Valid User
   const validUser = UserLoginValidation({
@@ -54,8 +58,20 @@ const login = async (req, res, next) => {
         if (!passwordCheck) {
           res.status(500).json("incorrect password");
         } else {
-          const { password,isAdmin, ...others } = localUser._doc;
-          res.status(200).json(others);
+          //SETTING UP THE JWT TOKEN OF THE USER IS VALID
+          const token = jwt.sign(
+            {
+              id: localUser._id,
+              isAdmin: localUser.isAdmin,
+            },
+            process.env.JWT_SECRET
+          );
+
+          const { password, isAdmin, ...others } = localUser._doc;
+          res
+            .cookie("access_token", token, { httpOnly: true })
+            .status(200)
+            .json(others);
         }
       }
     } catch (err) {

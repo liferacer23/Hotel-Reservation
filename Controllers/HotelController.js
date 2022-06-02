@@ -2,6 +2,7 @@ const Hotel = require("../Models/HotelsModel");
 const { NewHotelValidation } = require("../validation");
 const { UpdateHotelValidation } = require("../validation");
 
+//CREATE HOTEL
 const createHotel = async (req, res, next) => {
   //Validating Hotel
   const valid = NewHotelValidation(req.body);
@@ -17,6 +18,9 @@ const createHotel = async (req, res, next) => {
     }
   }
 };
+
+//GET ALL HOTELS
+
 const getAllHotels = async (req, res, next) => {
   try {
     const allHotels = await Hotel.find();
@@ -25,6 +29,9 @@ const getAllHotels = async (req, res, next) => {
     next(err);
   }
 };
+
+//GET SINGLE HOTEL
+
 const getHotel = async (req, res, next) => {
   try {
     const singleHotel = await Hotel.findById(req.params.id);
@@ -33,6 +40,9 @@ const getHotel = async (req, res, next) => {
     next(err);
   }
 };
+
+//UPDATE HOTEL
+
 const updateHotel = async (req, res, next) => {
   const valid = UpdateHotelValidation(req.body);
   if (valid.error) {
@@ -50,6 +60,9 @@ const updateHotel = async (req, res, next) => {
     }
   }
 };
+
+//DELETE HOTEL
+
 const deleteHotel = async (req, res, next) => {
   try {
     const deleteHotel = await Hotel.findByIdAndDelete(req.params.id);

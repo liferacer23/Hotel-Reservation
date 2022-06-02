@@ -1,5 +1,7 @@
 const Joi = require('joi');
 const { joiPassword } = require('joi-password');
+
+
 const NewHotelValidation = (data) => {
   const NewHotelSchema = Joi.object({
     name: Joi.string().min(4).required(),
@@ -64,7 +66,44 @@ const UserLoginValidation = (data) => {
   return validateUser;
 };
 
+const NewUserValidation = (data) => {
+  const NewUserSchema = Joi.object({
+    email:Joi.string().email().required(),
+    username: Joi.string().min(4).required(),
+    password: joiPassword
+    .string()
+    .minOfSpecialCharacters(1)
+    .minOfLowercase(1)
+    .minOfUppercase(1)
+    .minOfNumeric(1)
+    .noWhiteSpaces()
+    .min(8)
+    .required()
+  });
+  const validateUser = NewUserSchema.validate(data);
+  return validateUser;
+};
+
+const UpdateUserValidation = (data) => {
+  const NewUserSchema = Joi.object({
+    email:Joi.string().email(),
+    username: Joi.string().min(4),
+    password: joiPassword
+    .string()
+    .minOfSpecialCharacters(1)
+    .minOfLowercase(1)
+    .minOfUppercase(1)
+    .minOfNumeric(1)
+    .noWhiteSpaces()
+    .min(8)
+  });
+  const validateUser = NewUserSchema.validate(data);
+  return validateUser;
+};
+
 module.exports.NewHotelValidation = NewHotelValidation;
 module.exports.UpdateHotelValidation = UpdateHotelValidation;
 module.exports.UserRegisterValidation = UserRegisterValidation;
 module.exports.UserLoginValidation = UserLoginValidation;
+module.exports.NewUserValidation = NewUserValidation;
+module.exports.UpdateUserValidation = UpdateUserValidation;

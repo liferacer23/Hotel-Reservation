@@ -42,7 +42,6 @@ app.use((err, req, res,next) => {
     success:false,
     status:errorStatus,
     message:errorMessage,
-    stack:err.stack
   });
 });
 

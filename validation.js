@@ -25,6 +25,7 @@ const UpdateHotelValidation = (data) => {
     title: Joi.string().min(3),
     address: Joi.string().min(3),
     distances: Joi.string(),
+    featured: Joi.boolean(),
     description: Joi.string(),
     cheapestPrice: Joi.number(),
     rating: Joi.number(),
@@ -101,9 +102,35 @@ const UpdateUserValidation = (data) => {
   return validateUser;
 };
 
+const NewRoomValidation = (data)=>{
+  const NewRoomSchema = Joi.object({
+    title:Joi.string().min(3).required(),
+    price:Joi.number().required(),
+    maxPeople:Joi.number().min(1).required(),
+    description:Joi.string().min(5).required(),
+    roomNumbers:Joi.array().required()
+  })
+  const validateRoom = NewRoomSchema.validate(data);
+  return validateRoom;
+};
+
+const UpdateRoomValidation = (data)=>{
+  const NewRoomSchema = Joi.object({
+    title:Joi.string().min(3),
+    price:Joi.number(),
+    maxPeople:Joi.number().min(1),
+    description:Joi.string().min(5),
+    roomNumbers:Joi.array()
+  })
+  const validateRoom = NewRoomSchema.validate(data);
+  return validateRoom;
+};
+
 module.exports.NewHotelValidation = NewHotelValidation;
 module.exports.UpdateHotelValidation = UpdateHotelValidation;
 module.exports.UserRegisterValidation = UserRegisterValidation;
 module.exports.UserLoginValidation = UserLoginValidation;
 module.exports.NewUserValidation = NewUserValidation;
 module.exports.UpdateUserValidation = UpdateUserValidation;
+module.exports.NewRoomValidation = NewRoomValidation;
+module.exports.UpdateRoomValidation = UpdateRoomValidation;

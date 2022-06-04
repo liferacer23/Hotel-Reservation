@@ -18,6 +18,7 @@ const verifyToken = (req, res, next) => {
 };
 
 ////////////////////////////////////
+//FOR USER DELETE AND UPDATE
 
 const verifyUser = (req, res, next) => {
   verifyToken(req, res, next,() => {

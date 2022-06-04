@@ -45,7 +45,7 @@ app.use((err, req, res,next) => {
   });
 });
 
-app.listen(5000 || process.env.PORT, () => {
+app.listen(4000 || process.env.PORT, () => {
   connect();
-  console.log("Backend is running on port 5000");
+  console.log("Backend is running on port 4000");
 });

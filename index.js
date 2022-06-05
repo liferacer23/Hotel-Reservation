@@ -14,9 +14,12 @@ const usersRoute = require("./Routes/users");
 const roomsRoute = require("./Routes/rooms");
 const hotelsRoute = require("./Routes/hotels");
 
+
+const url = process.env.MONGO_URL
+
 const connect = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URL,{ useNewUrlParser: true });
+    await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     console.log("Connected to mongoDB");
   } catch (err) {
     throw err;

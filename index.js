@@ -16,7 +16,7 @@ const hotelsRoute = require("./Routes/hotels");
 
 const connect = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URL);
+    await mongoose.connect(process.env.MONGO_URL,{ useNewUrlParser: true });
     console.log("Connected to mongoDB");
   } catch (err) {
     throw err;

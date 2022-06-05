@@ -1,7 +1,7 @@
 const Room = require("../Models/RoomModel");
 const Hotel = require("../Models/HotelsModel");
 const { createError } = require("../utils/error");
-const { NewRoomValidation,UpdateRoomValidation } = require("../validation");
+const { NewRoomValidation, UpdateRoomValidation } = require("../validation");
 
 //CREATE ROOM
 
@@ -70,18 +70,36 @@ const updateRoom = async (req, res, next) => {
   }
 };
 
+//UPDATE ROOM AVAILABILITY
+
+const updateAvailability = async (req, res, next) => {
+  try {
+    const updated = await Room.updateOne(
+      { "roomNumbers._id": req.params.id },
+      {
+        $push: {
+          "roomNumbers.$.unavailableDates": req.body.dates,
+        },
+      }
+    );
+   res.status(200).json("uPDated")
+  } catch (err) {
+    next(err);
+  }
+};
+
 //DELETE ROOM
 
 const deleteRoom = async (req, res, next) => {
   try {
     const hotelId = req.params.hotelid;
     try {
-        await Hotel.findByIdAndDelete(hotelId, {
-          $pull: { rooms: req.param.id },
-        });
-      } catch (err) {
-        next(createError(500, err));
-      }
+      await Hotel.findByIdAndDelete(hotelId, {
+        $pull: { rooms: req.param.id },
+      });
+    } catch (err) {
+      next(createError(500, err));
+    }
     const deleteRoom = await Room.findByIdAndDelete(req.params.id);
     res.json(`${deleteRoom.title} has been deleted`);
   } catch (err) {
@@ -92,5 +110,6 @@ const deleteRoom = async (req, res, next) => {
 module.exports.createRoom = createRoom;
 module.exports.deleteRoom = deleteRoom;
 module.exports.updateRoom = updateRoom;
+module.exports.updateAvailability = updateAvailability;
 module.exports.getAllRooms = getAllRooms;
 module.exports.getRoom = getRoom;

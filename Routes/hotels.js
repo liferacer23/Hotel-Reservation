@@ -9,7 +9,7 @@ const {
   countByType,
   getHotelRooms
 } = require("../Controllers/HotelController");
-const { verifyAdmin, verifyUser } = require("../utils/verifyToken");
+const { verifyAdmin } = require("../utils/verifyToken");
 
 
 //CREATE HOTEL
@@ -19,6 +19,7 @@ router.post("/", verifyAdmin, createHotel);
 //UPDATE HOTEL
 
 router.put("/:id", verifyAdmin, updateHotel);
+
 
 //DELETE HOTEL
 
